@@ -5,6 +5,7 @@ from rest_framework_simplejwt.views import TokenRefreshView
 urlpatterns = [
     path('customer/', CustomerView.as_view()),
     path('customer/<int:id>/', CustomerView.as_view()),
+    
     path('product/', ProductView.as_view()),
     path('product/<int:id>/', ProductView.as_view()),
 

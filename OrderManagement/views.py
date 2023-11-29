@@ -160,9 +160,9 @@ class OrderDetailsView(APIView):
 
         product_data = request.data[1]
 
-        order_details = OrdersDetails(customer_id = details_data['customer_id'], bill_date = details_data['bill_date'])
+        bill_details = OrdersDetails(customer_id = details_data['customer_id'], bill_date = details_data['bill_date'])
 
-        order_details.save()
+        bill_details.save()
 
         product_sum = 0
 
@@ -178,11 +178,11 @@ class OrderDetailsView(APIView):
 
             product_sum = product_sum + product_sub_total
 
-            ordered_products = OrderedProducts(order_details_id = order_details.id, product_id = a['product_id'], quantity = a['quantity'], amount = product_amount, gst_amount = product_gst_amount, sub_total = product_sub_total)
+            ordered_products = OrderedProducts(order_details_id = bill_details.id, product_id = a['product_id'], quantity = a['quantity'], amount = product_amount, gst_amount = product_gst_amount, sub_total = product_sub_total)
 
             ordered_products.save()
 
-        order_details_filter = OrdersDetails.objects.filter(id = order_details.id)
+        order_details_filter = OrdersDetails.objects.filter(id = bill_details.id)
 
         order_details_filter.update(bill_amount = product_sum)
 
@@ -294,7 +294,7 @@ class TestView(APIView):
 
         new.save()
 
-        return Response("Data Saved")
+        return Response(TestSerializer(Test.objects.all(), many=True).data)
     
     def patch(self, request, id):
 
