@@ -302,13 +302,13 @@ class TestView(APIView):
 
         Test.objects.filter(id = id).update(customer_name = data['name'], username = data['username'], age = data['age'])
 
-        return Response("Data Updated")
+        return Response(TestSerializer(Test.objects.all(), many=True).data)
     
     def delete(self, request, id):
 
         Test.objects.get(id = id).delete()
 
-        return Response("Data Deleted")
+        return Response(TestSerializer(Test.objects.all(), many=True).data)
 
 
 class Sample(APIView):
