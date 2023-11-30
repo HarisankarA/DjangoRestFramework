@@ -210,8 +210,6 @@ class OrderDetailsView(APIView):
 
                 product_sub_total = product_amount + product_gst_amount
 
-                product_sum = product_sum + product_sub_total
-
                 ordered_products = OrderedProducts(order_details_id = id, product_id = a['product_id'], quantity = a['quantity'], amount = product_amount, gst_amount = product_gst_amount, sub_total = product_sub_total)
 
                 ordered_products.save()
@@ -226,7 +224,7 @@ class OrderDetailsView(APIView):
 
                 ordered_product_filter = OrderedProducts.objects.filter(id = a['id'])
 
-                product = Product.objects.get(id = a['product_id'])
+                product = Product.objects.get(id = a['product'])
 
                 product_amount = a['quantity'] * product.price
 
@@ -234,9 +232,7 @@ class OrderDetailsView(APIView):
 
                 product_sub_total = product_amount + product_gst_amount
 
-                product_sum = product_sum + product_sub_total
-
-                ordered_product_filter.update(product_id = a['product_id'], quantity = a['quantity'], amount = product_amount, gst_amount = product_gst_amount, sub_total = product_sub_total)
+                ordered_product_filter.update(product_id = a['product'], quantity = a['quantity'], amount = product_amount, gst_amount = product_gst_amount, sub_total = product_sub_total)
 
         products_to_order = OrderedProducts.objects.filter(order_details_id = id)
 
@@ -245,6 +241,8 @@ class OrderDetailsView(APIView):
         for z in products_to_order:
 
             final_subtotal = final_subtotal + z.sub_total
+
+        order_filter.update(bill_amount = final_subtotal)
 
         return Response("Order data updated")
     
