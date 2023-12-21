@@ -288,7 +288,7 @@ class TestView(APIView):
 
         data = request.data
 
-        new = Test(customer_name = data['name'], username = data['username'], age = data['age'])
+        new = Test(customer_name = data['customer_name'], username = data['username'], age = data['age'])
 
         new.save()
 
@@ -298,7 +298,7 @@ class TestView(APIView):
 
         data = request.data
 
-        Test.objects.filter(id = id).update(customer_name = data['name'], username = data['username'], age = data['age'])
+        Test.objects.filter(id = id).update(customer_name = data['customer_name'], username = data['username'], age = data['age'])
 
         return Response(TestSerializer(Test.objects.all(), many=True).data)
     
