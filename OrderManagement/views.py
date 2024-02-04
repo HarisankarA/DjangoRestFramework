@@ -19,6 +19,7 @@ class CustomerView(APIView):
             for customer in all_customers:
 
                 customer_dataset = {
+                    "id": customer.id,
                     "customer_name": customer.customer_name,
                     "address": customer.address,
                     "phone_number": customer.phone_number,
@@ -170,7 +171,7 @@ class OrderDetailsView(APIView):
 
             product = Product.objects.get(id = a['product_id'])
 
-            product_amount = a['quantity'] * product.price
+            product_amount = float(a['quantity']) * product.price
 
             product_gst_amount = (product_amount * product.gst) / 100
 
