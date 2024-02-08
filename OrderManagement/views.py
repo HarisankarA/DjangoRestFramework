@@ -253,7 +253,11 @@ class OrderDetailsView(APIView):
 
         order.delete()
 
-        return Response("Order data deleted")
+        all_orders = OrdersDetails.objects.all()
+
+        order_serializer = OrderDetails_Serializers(all_orders, many=True)
+
+        return Response(order_serializer.data)
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

@@ -20,6 +20,8 @@ class Product_Serializer(serializers.ModelSerializer):
 
 class OrderedProducts_Serializer(serializers.ModelSerializer):
 
+    product = Product_Serializer()
+
     class Meta:
 
         model = OrderedProducts
